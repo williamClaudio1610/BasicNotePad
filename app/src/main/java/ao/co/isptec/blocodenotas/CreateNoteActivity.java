@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateNoteActivity extends AppCompatActivity {
     private EditText editTextTitle, editTextContent;
-    private Button buttonOk, buttonCancel;
+    private Button buttonSaveNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,29 +19,19 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         editTextTitle = findViewById(R.id.editTextTitle);
         editTextContent = findViewById(R.id.editTextContent);
-        buttonOk = findViewById(R.id.buttonOk);
-        buttonCancel = findViewById(R.id.buttonCancel);
+        buttonSaveNote = findViewById(R.id.buttonSaveNote);
 
-        // Evento do botão OK
-        buttonOk.setOnClickListener(new View.OnClickListener() {
+        // Evento de clique no botão para salvar a nota
+        buttonSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = editTextTitle.getText().toString();
                 String content = editTextContent.getText().toString();
-                String note = title + "\n" + content;
 
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("noteContent", note);
+                resultIntent.putExtra("noteTitle", title);
+                resultIntent.putExtra("noteContent", content);
                 setResult(RESULT_OK, resultIntent);
-                finish();
-            }
-        });
-
-        // Evento do botão Cancelar
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
                 finish();
             }
         });

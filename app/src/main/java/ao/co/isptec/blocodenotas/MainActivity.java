@@ -10,14 +10,13 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listViewNotes;
     private Button buttonNewNote;
-    private ArrayAdapter<String> adapter;
-    private ArrayList<String> notes;
+    private ArrayAdapter<Nota> adapter;
+    private ArrayList<Nota> notes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
         listViewNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String note = notes.get(position);
+                Nota nota = notes.get(position);
                 Intent intent = new Intent(MainActivity.this, ReadNoteActivity.class);
-                intent.putExtra("noteContent", note);  // Passar conteúdo da nota
+                intent.putExtra("noteTitle", nota.getTitulo());
+                intent.putExtra("noteContent", nota.getConteudo());
                 startActivity(intent);
             }
         });
@@ -57,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            String newNote = data.getStringExtra("noteContent");
-            notes.add(newNote);
+            String title = data.getStringExtra("noteTitle");
+            String content = data.getStringExtra("noteContent");
+            notes.add(new Nota(title, content));
             adapter.notifyDataSetChanged();
         }
     }
